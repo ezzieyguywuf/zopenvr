@@ -13,7 +13,7 @@ pub fn init() openvr.InitError!Self {
 }
 
 pub fn loadRenderModel(self: Self, render_model_name: [:0]const u8) openvr.RenderModelError!openvr.RenderModel {
-    while (true) : (std.time.sleep(10_000_000)) {
+    while (true) : (std.Thread.sleep(10_000_000)) {
         return self.loadRenderModelAsync(render_model_name) catch |err| switch (err) {
             error.Loading => continue,
             else => return err,
@@ -35,7 +35,7 @@ pub fn freeRenderModel(self: Self, render_model: openvr.RenderModel) void {
 }
 
 pub fn loadTexture(self: Self, texture_id: openvr.TextureID) openvr.RenderModelError!*openvr.RenderModel.TextureMap {
-    while (true) : (std.time.sleep(10_000_000)) {
+    while (true) : (std.Thread.sleep(10_000_000)) {
         return self.loadTextureAsync(texture_id) catch |err| switch (err) {
             error.Loading => continue,
             else => return err,

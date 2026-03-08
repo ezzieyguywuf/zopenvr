@@ -961,12 +961,12 @@ pub const AppKeys = struct {
     }
 
     pub fn allocKeys(self: AppKeys, allocator: std.mem.Allocator) ![][]const u8 {
-        var keys = std.ArrayList([]const u8).init(allocator);
+        var keys: std.ArrayList([]const u8) = .empty;
         var it = std.mem.splitScalar(u8, self.buffer, ',');
         while (it.next()) |key| {
-            try keys.append(key);
+            try keys.append(allocator, key);
         }
-        return keys.toOwnedSlice();
+        return keys.toOwnedSlice(allocator);
     }
 };
 pub const SceneApplicationState = enum(i32) {
@@ -1045,12 +1045,12 @@ pub const MimeTypes = struct {
     }
 
     pub fn allocTypes(self: MimeTypes, allocator: std.mem.Allocator) ![][]const u8 {
-        var types = std.ArrayList([]const u8).init(allocator);
+        var types: std.ArrayList([]const u8) = .empty;
         var it = std.mem.splitScalar(u8, self.buffer, ',');
         while (it.next()) |t| {
-            try types.append(t);
+            try types.append(allocator, t);
         }
-        return types.toOwnedSlice();
+        return types.toOwnedSlice(allocator);
     }
 };
 
@@ -2690,11 +2690,11 @@ pub const FilePaths = struct {
     }
 
     pub fn allocPaths(self: FilePaths, allocator: std.mem.Allocator) ![][]const u8 {
-        var paths = std.ArrayList([]const u8).init(allocator);
+        var paths: std.ArrayList([]const u8) = .empty;
         var it = std.mem.splitScalar(u8, self.buffer, ';');
         while (it.next()) |path| {
-            try paths.append(path);
+            try paths.append(allocator, path);
         }
-        return paths.toOwnedSlice();
+        return paths.toOwnedSlice(allocator);
     }
 };
