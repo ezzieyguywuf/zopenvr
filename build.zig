@@ -20,7 +20,7 @@ pub fn addLibraryPathsTo(zopenvr: *std.Build.Dependency, compile_step: *std.Buil
     switch (target.os.tag) {
         .windows => {
             if (target.cpu.arch.isX86()) {
-                compile_step.addLibraryPath(.{ .dependency = .{
+                compile_step.root_module.addLibraryPath(.{ .dependency = .{
                     .dependency = zopenvr,
                     .sub_path = "libs/openvr/lib/win64",
                 } });
@@ -28,7 +28,7 @@ pub fn addLibraryPathsTo(zopenvr: *std.Build.Dependency, compile_step: *std.Buil
         },
         .linux => {
             if (target.cpu.arch.isX86()) {
-                compile_step.addLibraryPath(.{ .dependency = .{
+                compile_step.root_module.addLibraryPath(.{ .dependency = .{
                     .dependency = zopenvr,
                     .sub_path = "libs/openvr/lib/linux64",
                 } });
@@ -64,7 +64,7 @@ pub fn addRPathsTo(zopenvr: *std.Build.Dependency, compile_step: *std.Build.Step
 pub fn linkOpenVR(compile_step: *std.Build.Step.Compile) void {
     switch (compile_step.rootModuleTarget().os.tag) {
         .windows, .linux => {
-            compile_step.linkSystemLibrary("openvr_api");
+            compile_step.root_module.linkSystemLibrary("openvr_api", .{});
         },
         else => {},
     }
